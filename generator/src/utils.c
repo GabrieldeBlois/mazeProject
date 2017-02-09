@@ -10,21 +10,17 @@
 
 #include "generation.h"
 
-int	my_strcmp(const char *s1, const char *s2)
-{
-  while (*s1 && *s2)
-    {
-      if (*s1++ != *s2++)
-	return (*s1 - *s2);
-    }
+int my_strcmp(const char *s1, const char *s2) {
+  while (*s1 && *s2) {
+    if (*s1++ != *s2++)
+      return (*s1 - *s2);
+  }
   return (*s1 - *s2);
 }
 
-void	test_labi(char **labi)
-{
-  if (g_width > 1 && g_height > 1 && (g_width % 2 == 0 || g_height % 2 == 0))
-    {
-      labi[g_height - 1][g_width - 1] = VISITED;
-      labi[g_height - 1][g_width - 2] = VISITED;
-    }
+void test_labi(char **labi) {
+  if (g_width > 1 && g_height > 1 && (g_width % 2 == 0 || g_height % 2 == 0)) {
+    labi[g_height - 1][g_width - 1] = VISITED;
+    labi[g_height - 1][g_width - 2] = VISITED;
+  }
 }

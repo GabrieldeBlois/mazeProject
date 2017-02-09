@@ -8,22 +8,16 @@
 ** Last update Tue May 24 09:22:42 2016 Gabriel de Blois
 */
 
-#include <stdlib.h>
-#include <unistd.h>
-#include <time.h>
-#include <stdio.h>
 #include "generation.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+#include <unistd.h>
 
-static	t_algo	algo_tab[] =
-{
-  &algo_normal,
-  &algo_jungled,
-  &algo_reverse
-};
+static t_algo algo_tab[] = {&algo_normal, &algo_jungled, &algo_reverse};
 
-t_path	*newpath(t_path *next, int x, int y)
-{
-  t_path	*tmp;
+t_path *newpath(t_path *next, int x, int y) {
+  t_path *tmp;
 
   if ((tmp = malloc(sizeof(*tmp))) == NULL)
     return (NULL);
@@ -33,39 +27,35 @@ t_path	*newpath(t_path *next, int x, int y)
   return (tmp);
 }
 
-void	begin_algo_main(char **labi, int x, int y)
-{
-  t_path	*begin;
-  int	random;
+void begin_algo_main(char **labi, int x, int y) {
+  t_path *begin;
+  int random;
 
   if ((begin = newpath(NULL, x, y)) == NULL)
-    return ;
-  while (begin != NULL)
-    {
-      labi[begin->y][begin->x] = VISITED;
-      random = rand() % 3;
-      begin = algo_tab[random](labi, begin);
-    }
+    return;
+  while (begin != NULL) {
+    labi[begin->y][begin->x] = VISITED;
+    random = rand() % 3;
+    begin = algo_tab[random](labi, begin);
+  }
 }
 
-void	make_labi_parfait(void)
-{
-  char	**labi;
-  int	x;
-  int	y;
+void make_labi_parfait(void) {
+  char **labi;
+  int x;
+  int y;
 
   x = 0;
   y = 0;
   if ((labi = init_labi()) == NULL)
-    return ;
+    return;
   begin_algo_main(labi, x, y);
   test_labi(labi);
   disp_labi(labi);
   free_labi(labi);
 }
 
-int	main(int ac, char **av)
-{
+int main(int ac, char **av) {
   srand(time(NULL));
   if (ac < 3)
     return (printf("usage: [width] [height] [parfait]\n"), 0);
@@ -73,14 +63,12 @@ int	main(int ac, char **av)
   g_height = atoi(av[2]);
   if (g_width <= 0 || g_height <= 0)
     return (0);
-  if (ac == 4)
-    {
-      if (my_strcmp(av[3], "parfait") == 0)
-	make_labi_parfait();
-      else
-	make_labi_imparfait();
-    }
-  else
+  if (ac == 4) {
+    if (my_strcmp(av[3], "parfait") == 0)
+      make_labi_parfait();
+    else
+      make_labi_imparfait();
+  } else
     make_labi_imparfait();
   return (0);
 }
